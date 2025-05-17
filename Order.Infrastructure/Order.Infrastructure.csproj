@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="EventStore.Client.Grpc.PersistentSubscriptions" Version="23.3.8" />
+		<PackageReference Include="EventStore.Client.Grpc.Streams" Version="23.3.8" />
+		<PackageReference Include="Dapr.Client" Version="1.15.3" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
+		<PackageReference Include="Aspire.Keycloak.Authentication" Version="9.2.1-preview.1.25222.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\MFCampShared\MFCampShared.csproj" />
+		<ProjectReference Include="..\Order.Application\Order.Application.csproj" />
+		<ProjectReference Include="..\Order.Domain\Order.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

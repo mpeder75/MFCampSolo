@@ -1,0 +1,38 @@
+version: 1
+common:
+  resourcesPath: ./resources
+apps:
+  - appDirPath: ./Customer.API/
+    appID: customer-api
+    daprHTTPPort: 3505
+    appPort: 5005
+    command: ["dotnet", "run"]
+  - appDirPath: ./Order.API/
+    appID: order-service
+    daprHTTPPort: 3502
+    appPort: 5002
+    command: ["dotnet", "run"]
+  - appDirPath: ./Shipping.API/
+    appID: shipping-api
+    daprHTTPPort: 3504
+    appPort: 5004
+    command: ["dotnet", "run"]
+  - appDirPath: ./Warehouse.API/
+    appID: warehouse-api
+    daprHTTPPort: 3503
+    appPort: 5003
+    command: ["dotnet", "run"]
+  - appDirPath: ./Payment.API/
+    appID: payment-api
+    daprHTTPPort: 3501
+    appPort: 5001
+    command: ["dotnet", "run"]
+  - appDirPath: ./Workflow.API/
+    appID: workflow-api
+    daprHTTPPort: 3506
+    appPort: 5006
+    command: ["dotnet", "run"]
+  - appDirPath: ./Gateway.API/
+    appID: gateway-api
+    appPort: 5000
+    command: ["dotnet", "run"]

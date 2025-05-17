@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="coverlet.collector" Version="6.0.2" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+		<PackageReference Include="Testcontainers.RavenDb" Version="3.7.0" />
+		<PackageReference Include="xunit" Version="2.9.2" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+		<PackageReference Include="xunit" Version="2.9.2" />
+
+		<!-- Testcontainers til Docker-baseret testing -->
+		<PackageReference Include="Testcontainers" Version="3.7.0" />
+		<PackageReference Include="Testcontainers.EventStoreDb" Version="3.7.0" />
+
+		<!-- Assertions bibliotek -->
+		<PackageReference Include="FluentAssertions" Version="6.12.0" />
+
+		<!-- Mocking -->
+		<PackageReference Include="Moq" Version="4.20.70" />
+
+		<!-- Træk Microsoft.Extensions.* pakker ind -->
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Xunit" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Projektreferencer -->
+		<ProjectReference Include="..\Order.Domain\Order.Domain.csproj" />
+		<ProjectReference Include="..\Order.Application\Order.Application.csproj" />
+		<ProjectReference Include="..\Order.Infrastructure\Order.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>
