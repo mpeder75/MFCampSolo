@@ -12,14 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Customer.API\Customer.API.csproj" />
-    <ProjectReference Include="..\Gateway.API\Gateway.API.csproj" />
     <ProjectReference Include="..\MFCamp.ApiService\MFCamp.ApiService.csproj" />
     <ProjectReference Include="..\Order.API\Order.API.csproj" />
     <ProjectReference Include="..\Payment.API\Payment.API.csproj" />
     <ProjectReference Include="..\Shipping.API\Shipping.API.csproj" />
-    <ProjectReference Include="..\Warehouse.API\Warehouse.API.csproj" />
-    <ProjectReference Include="..\Workflow.API\Workflow.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>
