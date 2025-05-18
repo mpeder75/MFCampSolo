@@ -15,10 +15,12 @@ namespace Order.Infrastructure.Repositories;
 public class OrderRepository : IOrderRepository
 {
     private readonly EventStoreDb _eventStoreDb;
+    private readonly DomainEventOutboxHandler _outboxHandler;
     
-    public OrderRepository(EventStoreDb eventStoreDb)
+    public OrderRepository(EventStoreDb eventStoreDb, DomainEventOutboxHandler outboxHandler)
     {
         _eventStoreDb = eventStoreDb;
+        _outboxHandler = outboxHandler;
     }
 
    public async Task<Domain.Aggregates.Order> LoadAsync(OrderId orderId)
@@ -34,11 +36,16 @@ public class OrderRepository : IOrderRepository
     {
         var streamName = GetStreamName(order.Id);
         var expectedVersion = order.Version - 1; 
-        
+            
         try
         {
+            // Save events to event store
             await _eventStoreDb.SaveEventAsync(streamName, order.GetUncommittedEvents(), expectedVersion);
+                
+            // Save events to outbox for external publishing
+            await _outboxHandler.HandleDomainEventsAsync(order);
 
+            // Clear domain events after successful saving
             order.ClearDomainEvents();
         }
         catch (InvalidOperationException ex) when (ex.Message.Contains("Concurrency conflict"))

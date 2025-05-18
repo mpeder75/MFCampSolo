@@ -2,11 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Order.Application.ReadModels;
+using Order.Application.Services;
 using Order.Domain.Events;
 using Order.Domain.Repositories;
 using Order.Infrastructure.Events;
+using Order.Infrastructure.Outbox;
 using Order.Infrastructure.Projections;
 using Order.Infrastructure.Repositories;
+using Order.Infrastructure.Services;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Conventions;
 using Raven.Client.ServerWide;
@@ -36,17 +39,13 @@ public static class DependencyInjection
             Database = configuration.GetSection("RavenDB")["DatabaseName"] ?? "Orders",
             Conventions = new DocumentConventions
             {
-                // Denne linje fortæller RavenDB at bruge DocumentId egenskaben til ID
                 FindIdentityProperty = memberInfo => memberInfo.Name == "DocumentId"
             }
         };
 
         store.Initialize();
 
-        // Registrer indekser INDEN database tjek
-        //IndexCreation.CreateIndexes(typeof(Orders_ByCustomerId).Assembly, store);
-
-        // Opret database hvis den ikke findes
+        // Create database if it doesn't exist
         try
         {
             store.Maintenance.Server.Send(new CreateDatabaseOperation(
@@ -54,10 +53,10 @@ public static class DependencyInjection
         }
         catch (Exception ex) when (ex.Message.Contains("already exists"))
         {
-            // Ignorér hvis databasen allerede findes
+            // Ignore if database already exists
         }
 
-        // Registrer DocumentStore som singleton
+        // Register DocumentStore as singleton
         services.AddSingleton<IDocumentStore>(store);
 
         // Register repositories and services
@@ -67,16 +66,18 @@ public static class DependencyInjection
         services.AddScoped<RavenDbContext>();
         services.AddScoped<IOrderQueries, RavenOrderQueries>();
         services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IEventPublisher, OrderEventPublisher>();
+
+        // New outbox pattern components
+        services.AddScoped<IOutboxService, RavenDbOutboxService>();
+        services.AddScoped<DomainEventOutboxHandler>();
+        services.AddHostedService<OutboxProcessorService>();
+
+        // Event projections for read models
         services.AddScoped<IProjection, OrderSummaryProjector>();
         services.AddScoped<IProjection, OrderDetailsProjector>();
-
-        // Event projection
         services.AddScoped<OrderEventProjector>();
-
-        services.AddTransient<Action<ProjectionManager>>(sp => manager => {
-            manager.RegisterProjection(sp.GetRequiredService<OrderSummaryProjector>());
-            manager.RegisterProjection(sp.GetRequiredService<OrderDetailsProjector>());
-        });
 
         return services;
     }

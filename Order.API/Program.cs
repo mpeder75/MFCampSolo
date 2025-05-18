@@ -13,9 +13,12 @@ builder.Services.AddEventStoreClient(options =>
     options.ConnectivitySettings.Insecure = true;
 });
 
-// DaprClient
+// Dapr
 builder.Services.AddControllers().AddDapr();
 builder.Services.AddDaprClient();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApi();
 
 builder.Services.AddSingleton<IEventPublisher>(sp => 
     new OrderEventPublisher(
@@ -26,13 +29,14 @@ builder.Services.AddSingleton<IEventPublisher>(sp =>
 builder.Services.AddScoped<OrderEventPublisher>();
 
 // DependencyInjection configurations fil
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddOpenApi();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 app.MapDefaultEndpoints();
 
@@ -45,6 +49,7 @@ if (app.Environment.IsDevelopment())
 // Understøtter Dapr CloudEvents
 app.UseCloudEvents();
 app.MapControllers();
+
 // Dapr pub/sub 
 app.MapSubscribeHandler();
 

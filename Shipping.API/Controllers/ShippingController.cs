@@ -1,5 +1,6 @@
 ﻿using Dapr;
 using Dapr.Client;
+using MFCampShared.Messages.Payment;
 using MFCampShared.Messages.Shipping;
 using Microsoft.AspNetCore.Mvc;
 using Shipping.API.Services;
@@ -20,6 +21,34 @@ namespace Shipping.API.Controllers
             _shippingService = shippingStateService;
             _logger = logger;
             _daprClient = daprClient;
+        }
+
+        [Topic("pubsub", "payment-successful")]
+        [HttpPost("payment-completed")]
+        public async Task<IActionResult> HandlePaymentCompleted(PaymentResultMessage paymentResult)
+        {
+            if (paymentResult.Status != "payment_successful")
+            {
+                _logger.LogInformation("Payment failed for OrderId: {OrderId}, no shipping needed", paymentResult.OrderId);
+                return Ok();
+            }
+
+            _logger.LogInformation("Payment successful for OrderId: {OrderId}, initiating shipping", paymentResult.OrderId);
+            
+            var shippingMessage = new ShippingMessage
+            {
+                WorkflowId = Guid.NewGuid().ToString(),
+                OrderId = paymentResult.OrderId,
+                CustomerId = "customer_from_payment", // In a real system, you'd get this from the order
+                PlannedPickupDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1))
+            };
+            
+            var result = await _shippingService.ProcessShipmentAsync(shippingMessage);
+            
+            // Publish shipping result
+            await _daprClient.PublishEventAsync(PUBSUB_NAME, "workflow-shipping", result);
+            
+            return Ok();
         }
 
         [Topic("pubsub", "shipping")]
