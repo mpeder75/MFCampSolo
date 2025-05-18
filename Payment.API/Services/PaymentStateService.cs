@@ -33,7 +33,6 @@ public class PaymentService : IPaymentService
 
         var result = new PaymentResultMessage
         {
-            WorkflowId = paymentMessage.WorkflowId,
             OrderId = paymentMessage.OrderId,
             Amount = paymentMessage.Amount,
             Status = "unknown"

@@ -31,7 +31,6 @@ public class PaymentController : ControllerBase
 
         var paymentMessage = new PaymentMessage
         {
-            WorkflowId = Guid.NewGuid().ToString(),
             OrderId = orderCreatedMessage.OrderId.ToString(),
             Amount = orderCreatedMessage.TotalAmount.ToString()
         };

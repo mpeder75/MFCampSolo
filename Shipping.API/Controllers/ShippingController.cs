@@ -37,7 +37,6 @@ namespace Shipping.API.Controllers
             
             var shippingMessage = new ShippingMessage
             {
-                WorkflowId = Guid.NewGuid().ToString(),
                 OrderId = paymentResult.OrderId,
                 CustomerId = "customer_from_payment", // In a real system, you'd get this from the order
                 PlannedPickupDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1))

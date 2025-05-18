@@ -33,7 +33,6 @@ namespace Shipping.API.Services
 
             var result = new ShippingResultMessage
             {
-                WorkflowId = shippingMessage.WorkflowId,
                 OrderId = shippingMessage.OrderId,
                 CustomerId = shippingMessage.CustomerId,
                 PlannedPickupDate =
