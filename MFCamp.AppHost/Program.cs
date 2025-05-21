@@ -1,6 +1,6 @@
-using System.Collections.Immutable;
 using CommunityToolkit.Aspire.Hosting.Dapr;
 using Projects;
+using System.Collections.Immutable;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -26,5 +26,6 @@ builder.AddProject<Payment_API>("payment-api").WithDaprSidecar(new DaprSidecarOp
     DaprHttpPort = 3501,
     ResourcesPaths = ImmutableHashSet.Create("../resources")
 });
+
 
 builder.Build().Run();

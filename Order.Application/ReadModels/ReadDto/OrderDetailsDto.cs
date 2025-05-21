@@ -11,6 +11,5 @@ public record OrderDetailsDto(
     string PaymentFailureReason,
     string TrackingNumber)
 {
-    // Denne egenskab bruges af RavenDB til at gemme dokument ID
     public string DocumentId { get; set; }
 }

@@ -12,7 +12,6 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4" />
 		<PackageReference Include="RavenDB.Client" Version="7.0.2" />
 	</ItemGroup>
-
 	<ItemGroup>
 		<ProjectReference Include="..\Order.Domain\Order.Domain.csproj" />
 	</ItemGroup>

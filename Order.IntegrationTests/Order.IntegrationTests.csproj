@@ -13,7 +13,6 @@
 		<PackageReference Include="Testcontainers.RavenDb" Version="3.7.0" />
 		<PackageReference Include="xunit" Version="2.9.2" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
-		<PackageReference Include="xunit" Version="2.9.2" />
 
 		<!-- Testcontainers til Docker-baseret testing -->
 		<PackageReference Include="Testcontainers" Version="3.7.0" />

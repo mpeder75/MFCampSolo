@@ -33,7 +33,7 @@ public class TestController : ControllerBase
         }
 
         // Get the order ID - you'd need to modify your createResult to return this
-        var orderId = Guid.Parse(createResult.Data.ToString()); 
+        var orderId = Guid.Parse(createResult.ToString()); 
 
         // 2. Add an item to the order
         var addItemCommand = new AddOrderItemCommand(

@@ -34,8 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MFCampShared", "MFCampShare
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{7F74F24B-7313-8368-FB46-4872DBD77787}"
 	ProjectSection(SolutionItems) = preProject
-		EventStoreStateStore.yaml = EventStoreStateStore.yaml
 		resources\pubsub.yaml = resources\pubsub.yaml
+		resources\statestore.yaml = resources\statestore.yaml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.IntegrationTests", "Order.IntegrationTests\Order.IntegrationTests.csproj", "{9EE6AC66-EB19-4DCD-8D4A-C5367853D55D}"

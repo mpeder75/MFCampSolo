@@ -42,39 +42,20 @@ public abstract class AggregateRoot : Entity
         Version++;
     }
 
-    /// <summary>
-    ///     Handles the state change logic for each event type
-    ///     Must be implemented by derived classes
-    /// </summary>
-    /// <param name="event">The event to process</param>
     protected abstract void When(DomainEvent @event);
 
-    /// <summary>
-    ///     Validates the aggregate's invariants
-    ///     Must be implemented by derived classes to enforce business rules
-    /// </summary>
     protected abstract void EnsureValidState();
 
-    /// <summary>
-    ///     Returns all uncommitted events
-    /// </summary>
-    /// <returns>Collection of domain events</returns>
     public IReadOnlyCollection<DomainEvent> GetUncommittedEvents()
     {
         return DomainEvents;
     }
 
-    /// <summary>
-    ///     Clears the list of uncommitted events after they've been persisted
-    /// </summary>
     public void ClearDomainEvents()
     {
         _domainEvents.Clear();
     }
 
-    /// <summary>
-    ///     Returns the identity of the aggregate
-    /// </summary>
-    /// <returns>The unique identifier for this aggregate</returns>
+
     public abstract override object GetIdentity();
 }

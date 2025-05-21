@@ -1,7 +1,6 @@
 ﻿using Dapr;
 using Microsoft.AspNetCore.Mvc;
 using MFCampShared.Messages.Payment;
-using MFCampShared.Messages.Warehouse;
 using Order.Application.Services;
 using ShipmentStatusMessage = MFCampShared.Messages.Shipping.ShipmentStatusMessage;
 
@@ -39,28 +38,7 @@ namespace Order.API.Controllers
         }
 
         
-        [HttpPost("inventory-reserved")]
-        [Topic("pubsub", "inventory-reserved")]
-        public async Task<IActionResult> HandleInventoryReserved(InventoryReservedMessage message)
-        {
-            _logger.LogInformation("Received inventory reserved for order {OrderId}", message.OrderId);
-            
-            try
-            {
-                // Update your IOrderService interface and implementation with this method
-                await _orderService.ProcessInventoryReservedAsync(message.OrderId);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error processing inventory reserved for order {OrderId}", message.OrderId);
-                return StatusCode(500);
-            }
-        }
-
-
-
-
+       
         [HttpPost("shipment-status")]
         [Topic("pubsub", "shipment-status")]
         public async Task<IActionResult> HandleShipmentStatusUpdate(ShipmentStatusMessage message)
@@ -80,11 +58,6 @@ namespace Order.API.Controllers
                 return StatusCode(500);
             }
         }
-
-
-
-
-
-
+        
     }
 }

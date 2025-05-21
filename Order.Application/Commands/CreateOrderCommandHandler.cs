@@ -77,7 +77,8 @@ namespace Order.Application.Commands
 
         public ValidateOrderCommandHandler(IOrderRepository orderRepository)
         {
-            _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
+            _orderRepository = orderRepository 
+                               ?? throw new ArgumentNullException(nameof(orderRepository));
         }
 
         public async Task HandleAsync(ValidateOrderCommand command)

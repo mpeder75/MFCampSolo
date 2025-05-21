@@ -1,4 +1,4 @@
-﻿    using Order.Domain.Exceptions;
+﻿using Order.Domain.Exceptions;
 
 namespace Order.Domain.ValueObjects;
 
