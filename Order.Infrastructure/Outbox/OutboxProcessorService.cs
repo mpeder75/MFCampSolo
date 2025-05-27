@@ -35,18 +35,26 @@ namespace Order.Infrastructure.Outbox
         {
             _logger.LogInformation("Outbox processor service started");
 
-            while (!stoppingToken.IsCancellationRequested)
+            try
             {
-                try
+                while (!stoppingToken.IsCancellationRequested)
                 {
-                    await ProcessOutboxMessagesAsync(stoppingToken);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Error processing outbox messages");
-                }
+                    try
+                    {
+                        await ProcessOutboxMessagesAsync(stoppingToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error processing outbox messages");
+                    }
 
-                await Task.Delay(_processingInterval, stoppingToken);
+                    await Task.Delay(_processingInterval, stoppingToken);
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                // Forventet ved shutdown, ingen grund til at logge som fejl
+                _logger.LogInformation("Outbox processor service is stopping due to cancellation.");
             }
         }
 

@@ -10,7 +10,7 @@ using Order.Application.Services;
 namespace Order.API.Controllers;
 
 [ApiController]
-[Route("[orders]")]
+[Route("orders")]
 public class OrderQueryController : ControllerBase
 {
     private readonly ILogger<OrderQueryController> _logger;
@@ -21,11 +21,15 @@ public class OrderQueryController : ControllerBase
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
     }
-    
+    /*
     [HttpGet]
+    [Route("")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    */
+    [HttpGet]
+    [Route("")]
     public async Task<ActionResult<PagedResult<OrderSummaryDto>>> GetOrders(
         [FromQuery] int pageNumber = 1, 
         [FromQuery] int pageSize = 10)
@@ -46,12 +50,15 @@ public class OrderQueryController : ControllerBase
             return StatusCode(500, new { error = "An error occurred while processing your request." });
         }
     }
-
+    /*
     [HttpGet("customer/{customerId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]    
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    */
+    [HttpGet]
+    [Route("customer/{customerId:guid}")]
     public async Task<ActionResult<PagedResult<OrderHistoryDto>>> GetCustomerOrders(Guid customerId, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
         try
@@ -81,11 +88,14 @@ public class OrderQueryController : ControllerBase
             return StatusCode(500, new { error = "An error occurred while processing your request." });
         }
     }
-
+    /*
     [HttpGet("status/{status}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    */
+    [HttpGet]
+    [Route("status/{status}")]
     public async Task<ActionResult<PagedResult<OrderSummaryDto>>> GetOrdersByStatus(
         string status,
         [FromQuery] int pageNumber = 1,
@@ -113,25 +123,29 @@ public class OrderQueryController : ControllerBase
             return StatusCode(500, new { error = "An error occurred while processing your request." });
         }
     }
-
+    /*
     [HttpGet("{orderId:guid}/details")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<OrderDetailsDto>> GetOrderDetails(Guid orderId)
+    */
+    [HttpGet]
+    [Route("{orderId:guid}/details")]
+    public async Task<ActionResult<OrderDetailsDto>> GetOrderDetails(Guid orderId)
     {
         try
         {
             _logger.LogInformation("Getting details for order {OrderId}", orderId);
-        
+
             var query = new GetOrderDetailsQuery(orderId);
             var result = await _queryDispatcher.DispatchAsync<GetOrderDetailsQuery, OrderDetailsDto>(query);
-        
+
             if (result == null)
             {
                 return NotFound(new { message = $"Order {orderId} not found" });
             }
-        
+
             return Ok(result);
         }
         catch (Exception e)
@@ -140,8 +154,12 @@ public class OrderQueryController : ControllerBase
             return StatusCode(500, new { error = "An error occurred while processing your request." });
         }
     }
-
+    /*
     [HttpGet("{orderId:guid}")]
+    */
+    
+    [HttpGet]
+    [Route("{orderId:guid}")]
     public async Task<ActionResult<OrderSummaryDto>> GetOrderSummary(Guid orderId)
     {
         try

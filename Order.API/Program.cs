@@ -2,6 +2,8 @@ using Dapr.Client;
 using Order.Application.Services;
 using Order.Infrastructure;
 using Order.Infrastructure.Services;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +38,8 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 
 var app = builder.Build();
 
-app.UseExceptionHandler();
+//app.UseProblemDetails();
+//app.UseExceptionHandler();
 
 app.MapDefaultEndpoints();
 
