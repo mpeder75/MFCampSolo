@@ -18,10 +18,12 @@ public class OrderController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost]
+   /*
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+   */
+    [HttpPost]
     public async Task<ActionResult> CreateOrder([FromBody] CreateOrderCommand command)
     {
         try
@@ -47,12 +49,13 @@ public class OrderController : ControllerBase
             return StatusCode(500, new { error = "An error occurred while processing your request." });
         }
     }
-
-    [HttpPut]
-    [Route("{orderId}/items")]
+    /*
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    */
+    [HttpPut]
+    [Route("{orderId}/items")]
     public async Task<ActionResult> AddItemToOrder(Guid orderId, [FromBody] AddOrderItemCommand command)
     {
         try
@@ -76,6 +79,11 @@ public class OrderController : ControllerBase
         }
     }
 
+    /*
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    */
     /// <summary>
     ///     Opdaterer leveringsadressen for en specifik ordre.
     ///     Bemærk: Dette opdaterer KUN leveringsadressen for en specifikke ordre
@@ -89,9 +97,6 @@ public class OrderController : ControllerBase
     /// <param name="orderId">ID for ordren der skal opdateres</param>
     /// <param name="command">Kommando med leveringsadressedata</param>
     [HttpPut("{orderId}/address")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> SetShippingAddress(Guid orderId, [FromBody] SetShippingAddressCommand command)
     {
         try
@@ -119,10 +124,12 @@ public class OrderController : ControllerBase
         }
     }
 
+    /*
+     ProducesResponseType(StatusCodes.Status200OK)]
+       [ProducesResponseType(StatusCodes.Status400BadRequest)]
+       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    */
     [HttpPut("{orderId}/validate")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> ValidateOrder(Guid orderId)
     {
         try
@@ -147,10 +154,12 @@ public class OrderController : ControllerBase
         }
     }
 
-    [HttpPut("{orderId}/payment/pending")]
+    /*
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+       [ProducesResponseType(StatusCodes.Status400BadRequest)]
+       [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+   */
+    [HttpPut("{orderId}/payment/pending")]
     public async Task<ActionResult> MarkPaymentPending(Guid orderId)
     {
         try
@@ -175,9 +184,6 @@ public class OrderController : ControllerBase
     }
 
     [HttpPut("{orderId}/payment/approved")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> MarkPaymentApproved(Guid orderId)
     {
         try
@@ -202,9 +208,6 @@ public class OrderController : ControllerBase
     }
 
     [HttpPut("{orderId}/payment/failed")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> MarkPaymentFailed(Guid orderId, [FromBody] MarkPaymentFailedRequest request)
     {
         try
@@ -229,9 +232,6 @@ public class OrderController : ControllerBase
     }
 
     [HttpPut("{orderId}/process")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> ProcessOrder(Guid orderId)
     {
         try
@@ -257,9 +257,6 @@ public class OrderController : ControllerBase
     }
 
     [HttpPut("{orderId}/ship")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> ShipOrder(Guid orderId, [FromBody] ShipOrderRequest request)
     {
         try
@@ -284,9 +281,6 @@ public class OrderController : ControllerBase
     }
 
     [HttpPut("{orderId}/deliver")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> DeliverOrder(Guid orderId)
     {
         try
@@ -358,9 +352,6 @@ public class OrderController : ControllerBase
 
 
     [HttpPut("{orderId}/cancel")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> CancelOrder(Guid orderId, [FromBody] CancelOrderRequest request)
     {
         try
@@ -381,7 +372,4 @@ public class OrderController : ControllerBase
             return StatusCode(500, new { error = "An error occurred while processing your request." });
         }
     }
-
-
-
 }

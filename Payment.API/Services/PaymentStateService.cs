@@ -8,7 +8,7 @@ public interface IPaymentService
     Task<PaymentResultMessage> ProcessPaymentAsync(PaymentMessage paymentMessage);
 }
 
-// Når en payment er fejlet skal Workflow kalde  MarkPaymentFailed i Order service
+// Når en payment er fejlet skal Workflow kalde MarkPaymentFailed i Order service
 public class PaymentService : IPaymentService
 {
     private readonly DaprClient _daprClient;
